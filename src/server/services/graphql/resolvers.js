@@ -1,9 +1,12 @@
-var posts = [
+import logger from "../../helpers/logger";
+
+
+let posts = [
     {
         id: 2,
         text: 'Lorem ipsum',
         user: {
-            avatar: './uploads/avatar1.png',
+            avatar: '/uploads/avatar1.png',
             username: 'Test User'
         }
     },
@@ -11,17 +14,31 @@ var posts = [
         id: 1,
         text: 'Lorem ipsum',
         user: {
-            avatar: './uploads/avatar2.png',
+            avatar: '/uploads/avatar2.png',
             username: 'Test User 2'
         }
     }
-]
+];
+
 
 const resolvers = {
     RootQuery: {
         posts()
         {
             return posts;
+        },
+    },
+    RootMutation: {
+        addPost(root, { post, user }, context)
+        {
+            const postObject = {
+                ...post,
+                user,
+                id: posts.length + 1,
+            };
+            posts.push(postObject);
+            logger.log({ level: 'info', message: 'Post was created' })
+            return postObject;
         },
     },
 };
