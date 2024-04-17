@@ -3,7 +3,13 @@ import path from 'path';
 import helmet from 'helmet';
 import cors from 'cors';
 import compress from 'compression';
-import services from './services';
+import servicesLoader from './services';
+const services = servicesLoader(utils);
+import db from './database';
+
+const utils = {
+    db,
+}
 
 const root = path.join(__dirname, '../../');
 
